@@ -1,18 +1,17 @@
-primary_name: "Your Name"
+primary_name: "Yiheng Fan"
 secondary_name: ""
-navbar_name: "Your Name"
+navbar_name: "Yiheng Fan"
 
 positions:
-- logo: /assets/images/badges/MIT_Social_circle.png  # Logo is optional
-  name: Position 1 with logo
-- name: Position 2 without logo
+- logo: /assets/images/badges/SYSU-logo.svg  # Logo is optional
+  name:  M.Eng Student @ Sun Yat-sen University
 
 
-email: "your@email.com"
+email: "fan-yiheng@foxmail.com"
 # cv_link: link-to-your-cv-file
 gscholar: xFmQpf4AAAAJ  # This is an example, replace it with your own Google Scholar ID
-github: your_github_id
-twitter: your_twitter_id  # Do not include the '@' symbol
+github: Fan-Yiheng
+# twitter: your_twitter_id  # Do not include the '@' symbol
 # wechat_qrcode: /assets/images/etc/wechat.jpg
 # wechat_prompt: >-
 #   Please tell me your <strong>name</strong> and <strong>affiliation</strong> (current or past) when adding my wechat. Thanks!
@@ -22,29 +21,31 @@ twitter: your_twitter_id  # Do not include the '@' symbol
 short_bio_text_justify: false
 short_bio: >-
   <p>
-    A <a href="https://en.wikipedia.org/wiki/Bicolor_cat" target="_blank">bicolor cat</a> is a cat with white fur combined with fur of some other colour, for example solid black, tabby, or colourpointed.
+    My name is Yiheng Fan, and I am currently pursuing a Master's degree in Next-Generation Electronic Information Technology at 
+    the School of Electronics and Communication Engineering, Sun Yat-sen University. 
+    I obtained my Bachelor's degree in Communication Engineering from the Pilot Program of the School of Information Engineering at Wuhan University of Technology.
   </p>
   <p>
-    There are various patterns of a bicolour cat. These range from the Van-patterned (colour on the crown of the head 
-    and the tail only) to a solid colour with a throat locket or medallion. Bicolour coats are found in many cat breeds, 
-    as well as being common in domestic longhair and domestic shorthair cats.
+    During my undergraduate studies, I was awarded the National Second Prize in both the China Undergraduate Electronics Design Contest and the China Robotics Competition. 
+    As a graduate student, I was honored with the National Second Prize in the China Graduate Electronics Design Contest.
+    My current research focuses on non-contact intelligent sensing, I am passionate about advancing this field through both theoretical study and practical implementation.
   </p>
 
 portrait_url: /assets/images/photos/portrait.jpg
 portrait_caption: >-
-  Photo by Manja Vitolic on Unsplash (this caption is optional, comment it out to disable).
+  Hi There!
 
 education:
-- name: Massachusetts Institute of Technology
-  logo: /assets/images/badges/MIT_Social_circle.png
+- name: Sun Yat-sen University
+  logo: /assets/images/badges/SYSU-logo.svg
   position: >- 
-    Department of Electrical Engineering and Computer Science <br/>
-    Ph.D. Student
-  date: Sep. 2024 - present
-- name: Peking University
-  logo: /assets/images/badges/PKU_red.png
-  position: B.S. in Computer Science
-  date: Sep. 2019 - Jul. 2021
+    School of Electronics and Communication Engineering <br/>
+    M.Eng Student
+  date: Sep. 2023 - present
+- name: Wuhan University of Technology
+  logo: /assets/images/badges/WHUT-logo.svg
+  position: B.S. in Communication Engineering
+  date: Sep. 2019 - Jun. 2023
 
 # experience:
 # - name: Peking University
@@ -53,9 +54,9 @@ education:
 #   date: Sep. 2019 - Jul. 2021
 
 awards:
-- name: Award Name 2
+- name: National Second Prize of China Graduate Electronics Design Contest
   date: 2024
-- name: Award Name 1 
-  date: 2021
-- name: A quick brown fox jumps over the lazy dog and runs away award
+- name: Second Prize of China Robot Competition
+  date: 2022
+- name: National Second Prize of National Undergraduate Electronics Design Contest
   date: 2021
