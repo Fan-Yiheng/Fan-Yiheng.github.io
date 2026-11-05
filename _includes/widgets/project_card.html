@@ -1,0 +1,8 @@
+<div class="my-3 p-0 bg-white shadow-sm rounded-sm">
+    <h6 class="border-bottom border-gray p-3 mb-0">
+        {% if include.title %}{{ include.title }}{% else %}<i class="fas fa-code"></i> Selected Projects{% endif %}
+    </h6>
+    {% for item in include.projects limit:include.limit %}
+        {% include widgets/project_item.html item=item hide_bottom_border=forloop.last %}
+    {% endfor %}
+</div>
