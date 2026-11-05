@@ -52,14 +52,14 @@ education:
   date: Sep. 2019 - Jun. 2023
 
 experience:
-- name: Insta360 (影石创新)
+- name: Insta360
   logo: /assets/images/badges/insta360.png
-  dept: 影石创新科技股份有限公司 · Shenzhen, China
+  dept: Shenzhen, China
   position: Embedded Algorithm Engineer
   date: Jul. 2026 - present
 - name: vivo
   logo: /assets/images/badges/vivo.png
-  dept: 维沃移动通信有限公司 · 智能手表蓝牙方向（实习）
+  dept: Smart Watch · Bluetooth (Internship)
   position: Assistant Driver Engineer
   date: Sep. 2025
 
