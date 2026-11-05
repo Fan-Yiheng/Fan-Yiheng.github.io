@@ -3,8 +3,10 @@ secondary_name: ""
 navbar_name: "Yiheng Fan"
 
 positions:
+- logo: /assets/images/badges/insta360.png
+  name:  Embedded Algorithm Engineer @ Insta360
 - logo: /assets/images/badges/SYSU-logo.svg  # Logo is optional
-  name:  M.Eng Student @ Sun Yat-sen University
+  name:  M.Eng, Sun Yat-sen University
 
 
 email: "fan-yiheng@foxmail.com"
@@ -21,14 +23,16 @@ github: Fan-Yiheng
 short_bio_text_justify: false
 short_bio: >-
   <p>
-    My name is Yiheng Fan, and I am currently pursuing a Master's degree in Next-Generation Electronic Information Technology at 
-    the School of Electronics and Communication Engineering, Sun Yat-sen University. 
+    My name is Yiheng Fan. I am an Embedded Algorithm Engineer at Insta360 (影石创新) in Shenzhen, China, where I have been
+    working since July 2026.
+    I received my Master's degree in Next-Generation Electronic Information Technology from the School of Electronics and
+    Communication Engineering at Sun Yat-sen University in 2026.
     I obtained my Bachelor's degree in Communication Engineering from the Pilot Program of the School of Information Engineering at Wuhan University of Technology.
   </p>
   <p>
     During my undergraduate studies, I was awarded the National Second Prize in both the China Undergraduate Electronics Design Contest and the China Robotics Competition. 
     As a graduate student, I was honored with the National Second Prize in the China Graduate Electronics Design Contest.
-    My current research focuses on non-contact intelligent sensing, I am passionate about advancing this field through both theoretical study and practical implementation.
+    My research focuses on non-contact intelligent sensing, I am passionate about advancing this field through both theoretical study and practical implementation.
   </p>
 
 portrait_url: /assets/images/photos/portrait.jpg
@@ -40,18 +44,19 @@ education:
   logo: /assets/images/badges/SYSU-logo.svg
   position: >- 
     School of Electronics and Communication Engineering <br/>
-    M.Eng Student
-  date: Sep. 2023 - present
+    M.Eng
+  date: Sep. 2023 - Jun. 2026
 - name: Wuhan University of Technology
   logo: /assets/images/badges/WHUT-logo.svg
   position: B.S. in Communication Engineering
   date: Sep. 2019 - Jun. 2023
 
-# experience:
-# - name: Peking University
-#   logo: /assets/images/badges/PKU_red.png
-#   position: Research Intern
-#   date: Sep. 2019 - Jul. 2021
+experience:
+- name: Insta360 (影石创新)
+  logo: /assets/images/badges/insta360.png
+  dept: 影石创新科技股份有限公司 · Shenzhen, China
+  position: Embedded Algorithm Engineer
+  date: Jul. 2026 - present
 
 awards:
 - name: National Second Prize of China Graduate Electronics Design Contest

@@ -1,0 +1,328 @@
+---
+layout: default
+title: ID Photo
+navbar_title: ID Photo
+container_class: idphoto-shell
+body_class: idphoto-body
+permalink: /idphoto/
+extra_css:
+  - /assets/idphoto/studio.css
+  - /assets/idphoto/host.css
+extra_js:
+  - /assets/idphoto/studio.js
+---
+
+{% comment %}
+  FRAME · 证件照工坊 —— 主页嵌入版。
+  工具源码来自 https://github.com/Fan-Yiheng/dsh-frame-id-photo
+  （dsh-plugin/src/studio.* 与独立网页版的裁切引擎相同），
+  这里只做宿主适配：body_class / container_class 与 host.css。
+  图片全程在浏览器本地处理，不上传。
+{% endcomment %}
+
+<script>
+  // 示例图走站点资源目录（studio.js 会读取该全局变量）
+  window.FRAME_DEMO_SRC = "{{ '/assets/idphoto/demo-brand.svg' | relative_url }}";
+</script>
+
+<div class="paper-grain" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand" aria-label="FRAME 证件照工坊">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M5 11V6.8A1.8 1.8 0 0 1 6.8 5H11M21 5h4.2A1.8 1.8 0 0 1 27 6.8V11M27 21v4.2a1.8 1.8 0 0 1-1.8 1.8H21M11 27H6.8A1.8 1.8 0 0 1 5 25.2V21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          <rect x="11.4" y="11.4" width="9.2" height="9.2" rx="0.7" stroke="currentColor" stroke-width="1.1" opacity=".65"/>
+        </svg>
+      </span>
+      <span class="brand-type">
+        <span class="brand-word">FRAME</span>
+        <span class="brand-cn">证件照工坊</span>
+      </span>
+    </div>
+
+    <div class="topbar-mid" aria-hidden="true">
+      <span class="topbar-rule"></span>
+      <span class="topbar-note">Exact size. No stretch.</span>
+    </div>
+
+    <div class="top-actions">
+      <span class="privacy"><i></i>本地处理 · 原图不上传</span>
+      <button class="top-link" id="guideBtn" type="button">
+        尺寸指南
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="stage-card" id="stageCard" aria-label="照片裁切工作区">
+      <div class="stage-top">
+        <div class="file-info">
+          <span class="status-dot"></span>
+          <span class="file-name" id="fileName">示例肖像</span>
+          <span class="demo-tag" id="demoTag">示例</span>
+          <span class="file-dims" id="sourceDims">1100 × 1650 px</span>
+        </div>
+        <div class="stage-tools">
+          <button class="tool-btn" id="gridBtn" type="button" aria-pressed="true">
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 6.5h12M3 11.5h12M6.5 3v12M11.5 3v12" stroke="currentColor" stroke-width="1.1" opacity=".9"/><rect x="2.2" y="2.2" width="13.6" height="13.6" rx=".8" stroke="currentColor" stroke-width="1.1"/></svg>
+            网格
+          </button>
+          <button class="tool-btn tool-btn-strong" id="replaceBtn" type="button">
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 12.5V3.8M5.8 7 9 3.8 12.2 7M3.5 11.2v1.9c0 .9.7 1.6 1.6 1.6h7.8c.9 0 1.6-.7 1.6-1.6v-1.9" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            更换照片
+          </button>
+        </div>
+      </div>
+
+      <div class="stage-canvas-wrap" id="stage">
+        <canvas id="stageCanvas" aria-label="照片裁切预览"></canvas>
+
+        <div class="crop-ui" id="cropUi" aria-hidden="true">
+          <span class="frame-label" id="frameLabel">358 × 441</span>
+          <button class="crop-handle nw" data-handle="nw" type="button" tabindex="-1" aria-label="调整裁切框左上角"></button>
+          <button class="crop-handle ne" data-handle="ne" type="button" tabindex="-1" aria-label="调整裁切框右上角"></button>
+          <button class="crop-handle sw" data-handle="sw" type="button" tabindex="-1" aria-label="调整裁切框左下角"></button>
+          <button class="crop-handle se" data-handle="se" type="button" tabindex="-1" aria-label="调整裁切框右下角"></button>
+        </div>
+
+        <div class="drag-hint" id="dragHint">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 3v14M3 10h14M10 3 7.8 5.2M10 3l2.2 2.2M10 17l-2.2-2.2M10 17l2.2-2.2M3 10l2.2-2.2M3 10l2.2 2.2M17 10l-2.2-2.2M17 10l-2.2 2.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          拖动画面调整构图
+        </div>
+
+        <div class="drop-overlay" id="dropOverlay">
+          <div class="drop-inner">
+            <span class="drop-icon">
+              <svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M14 19V5M9 10l5-5 5 5M5 17v3.5A2.5 2.5 0 0 0 7.5 23h13a2.5 2.5 0 0 0 2.5-2.5V17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <strong>松开以载入照片</strong>
+            <span>JPG、PNG、WebP · 最大 30 MB</span>
+          </div>
+        </div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <span class="empty-eyebrow">LOCAL STUDIO / 001</span>
+          <h2>把照片，<br><em>放进对的尺寸。</em></h2>
+          <p>证件照精确裁切，等比缩放，不拉伸。<br>所有处理都在你的浏览器本地完成。</p>
+          <button class="empty-btn" id="emptyUpload" type="button">选择一张照片
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="empty-or">或拖入此区域</span>
+        </div>
+
+        <div class="stage-bottom">
+          <div class="zoom-control">
+            <button class="zoom-btn" id="zoomOut" type="button" aria-label="缩小">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </button>
+            <input id="zoomRange" type="range" min="100" max="500" value="100" step="1" aria-label="缩放照片" />
+            <button class="zoom-btn" id="zoomIn" type="button" aria-label="放大">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8 3.5v9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </button>
+            <span class="zoom-value" id="zoomValue">100%</span>
+          </div>
+          <button class="reset-btn" id="resetBtn" type="button">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.2 7.3a5 5 0 1 1 .7 3.7M3.2 7.3V3.9M3.2 7.3h3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            重置构图
+          </button>
+        </div>
+
+        <div class="stage-caption">
+          <span id="cropInfo">裁切区 1100 × 1354 px</span>
+          <span class="caption-sep"></span>
+          <span id="outputInfo">输出 358 × 441 px · 350 DPI</span>
+        </div>
+      </div>
+
+      <div class="stage-foot">
+        <div class="foot-metric">
+          <span class="foot-label">画面比例</span>
+          <span class="foot-value" id="ratioValue">0.81 : 1</span>
+        </div>
+        <div class="foot-metric">
+          <span class="foot-label">印刷尺寸</span>
+          <span class="foot-value" id="printValue">26.0 × 32.0 mm</span>
+        </div>
+        <div class="foot-metric foot-metric-right">
+          <span class="foot-label">源文件</span>
+          <span class="foot-value" id="fileSize">—</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel" aria-label="尺寸与导出设置">
+      <div class="panel-scroll">
+        <section class="panel-section section-spec">
+          <div class="section-kicker">
+            <span>01 / 规格</span>
+            <span class="kicker-en">SIZE</span>
+          </div>
+
+          <div class="current-spec">
+            <h1 id="presetName">社保卡</h1>
+            <div class="current-pixels"><span id="targetWLabel">358</span><i>×</i><span id="targetHLabel">441</span><small>PX</small></div>
+          </div>
+
+          <div class="preset-grid" id="presetGrid"></div>
+
+          <div class="custom-size" id="customSize" hidden>
+            <label>
+              <span>宽</span>
+              <input id="customW" type="number" inputmode="numeric" min="16" max="6000" value="358" aria-label="自定义宽度" />
+              <em>px</em>
+            </label>
+            <span class="custom-x">×</span>
+            <label>
+              <span>高</span>
+              <input id="customH" type="number" inputmode="numeric" min="16" max="6000" value="441" aria-label="自定义高度" />
+              <em>px</em>
+            </label>
+            <button id="applyCustom" type="button">应用</button>
+          </div>
+
+          <button class="all-sizes" id="allSizesBtn" type="button">
+            <span>全部 10 种规格</span>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 6h10M3 10h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          </button>
+        </section>
+
+        <section class="panel-section">
+          <div class="section-kicker">
+            <span>02 / 构图</span>
+            <span class="kicker-en">COMPOSE</span>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-copy">
+              <span class="setting-title">锁定长宽比</span>
+              <span class="setting-sub" id="lockHint">成品严格按证件规格输出</span>
+            </div>
+            <button class="switch" id="lockSwitch" type="button" role="switch" aria-checked="true" aria-label="锁定长宽比">
+              <span class="switch-track"><span class="switch-knob"></span></span>
+            </button>
+          </div>
+
+          <div class="free-panel" id="freePanel" hidden>
+            <div class="free-panel-head">
+              <span>定尺边</span>
+              <button id="restoreRatio" type="button">恢复标准比例</button>
+            </div>
+            <div class="segmented mini-seg" id="anchorSeg" role="group" aria-label="定尺边">
+              <button type="button" data-anchor="long" class="active">长边 <b id="longEdgeLabel">441</b></button>
+              <button type="button" data-anchor="width">宽 <b id="widthEdgeLabel">358</b></button>
+              <button type="button" data-anchor="height">高 <b id="heightEdgeLabel">441</b></button>
+            </div>
+            <p class="free-note">先等比缩放至定尺边，再自由裁切另一侧，画面不会拉伸。</p>
+          </div>
+
+          <div class="compare-row">
+            <div class="compare-cell">
+              <span>原图</span>
+              <strong id="sourceSize">1100 × 1650</strong>
+            </div>
+            <span class="compare-arrow">
+              <svg viewBox="0 0 26 12" fill="none" aria-hidden="true"><path d="M0 6h24M19.5 1.5 24 6l-4.5 4.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div class="compare-cell compare-cell-out">
+              <span>成品</span>
+              <strong id="outSize">358 × 441</strong>
+            </div>
+          </div>
+
+          <div class="resolution-note" id="resolutionNote">
+            <span class="note-dot"></span>
+            <span id="resolutionText">裁切区 1100 × 1354 px，画质充足</span>
+          </div>
+        </section>
+
+        <section class="panel-section section-export">
+          <div class="section-kicker">
+            <span>03 / 导出</span>
+            <span class="kicker-en">EXPORT</span>
+          </div>
+
+          <div class="export-row">
+            <div class="segmented format-seg" id="formatSeg" role="group" aria-label="导出格式">
+              <button type="button" data-format="jpeg" class="active">JPG</button>
+              <button type="button" data-format="png">PNG</button>
+            </div>
+            <span class="dpi-badge" id="dpiBadge">350 DPI</span>
+          </div>
+
+          <div class="quality-block" id="qualityBlock">
+            <div class="quality-head">
+              <span>画质</span>
+              <output id="qualityValue">92%</output>
+            </div>
+            <input id="qualityRange" type="range" min="60" max="100" step="1" value="92" aria-label="JPG 画质" />
+            <div class="quality-scale"><span>更小文件</span><span>更高画质</span></div>
+          </div>
+
+          <button class="export-btn" id="exportBtn" type="button">
+            <span class="export-btn-label">
+              <span class="export-btn-main">导出照片</span>
+              <span class="export-btn-sub" id="exportSub">JPG · 358 × 441 px</span>
+            </span>
+            <span class="export-btn-arrow">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+
+          <div class="export-foot">
+            <span>照片仅在本机处理</span>
+            <button id="copyBtn" type="button">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.2" y="5.2" width="8.3" height="8.3" rx="1.1" stroke="currentColor" stroke-width="1.1"/><path d="M10.8 5.2V3.6c0-.8-.6-1.4-1.4-1.4H3.6c-.8 0-1.4.6-1.4 1.4v5.8c0 .8.6 1.4 1.4 1.4h1.6" stroke="currentColor" stroke-width="1.1"/></svg>
+              复制图片
+            </button>
+          </div>
+        </section>
+
+        <div class="panel-signature" aria-hidden="true">
+          <span>FRAME STUDIO</span>
+          <span>EST. 2026</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/avif" hidden />
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-dot"></span>
+    <span id="toastText">已就绪</span>
+  </div>
+
+  <dialog class="sheet" id="guideDialog">
+    <div class="sheet-head">
+      <div>
+        <span class="sheet-kicker">REFERENCE / 规格与构图</span>
+        <h2>尺寸指南</h2>
+      </div>
+      <button class="sheet-close" id="closeGuide" type="button" aria-label="关闭">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="sheet-body">
+      <div class="sheet-cols">
+        <section class="sheet-col sheet-col-sizes">
+          <div class="sheet-label">常用证件照规格</div>
+          <div class="size-table" id="sizeTable"></div>
+          <p class="sheet-footnote">尺寸以像素为准；印刷毫米数按对应 DPI 换算。投稿前请以受理机构的最新要求为准。</p>
+        </section>
+        <section class="sheet-col sheet-col-rules">
+          <div class="sheet-label">构图建议</div>
+          <ol class="guide-list">
+            <li><span>01</span><div><b>正面、免冠、露耳</b><p>双眼平视镜头，表情自然，不佩戴夸张饰品。</p></div></li>
+            <li><span>02</span><div><b>头部约占画面 2/3</b><p>头顶留出约 3–5 mm 空间，肩线保持水平。</p></div></li>
+            <li><span>03</span><div><b>干净均匀的光线</b><p>避免强烈阴影、逆光与面部高光，背景尽量纯色。</p></div></li>
+          </ol>
+          <div class="guide-callout">
+            <span class="callout-mark">i</span>
+            <p>不确定时，先选择规格，再开启「锁定长宽比」。拖动画面调整构图，导出即为精确像素尺寸。</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </dialog>

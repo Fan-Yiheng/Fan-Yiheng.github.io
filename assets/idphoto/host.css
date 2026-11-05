@@ -1,0 +1,86 @@
+/* ------------------------------------------------------------------
+   FRAME · 证件照工坊 —— 嵌入主页时的宿主样式
+   studio.css 是插件原样式（按整屏应用设计），这里只做与站点共存的适配：
+   固定导航条占掉的高度、铺满宽度的容器、页脚隐藏。
+------------------------------------------------------------------- */
+
+.idphoto-body {
+  /* 站点导航条为 fixed-top，原模板给 body 预留 5rem；这里与真实高度对齐 */
+  padding-top: 56px;
+  /* studio.css 的整屏布局依赖 body 不滚动，工具内部自行滚动 */
+  overflow: hidden;
+  /* body 上的 .bg-light 带 !important，会盖掉工具自己的纸色背景 */
+  background-color: #f4f1ea !important;
+}
+
+/* 站点 .container-lg 会把宽度压到 1140px，工具需要整行宽度。
+   只作用于正文容器（body 的直接子元素），导航条内部同名的容器单独处理。 */
+.idphoto-body > .idphoto-shell {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 导航条里的容器跟工具顶栏的左右留白对齐。
+   Bootstrap 只对 .navbar > .container / .container-fluid 做 flex 排布，
+   这里换成自定义容器类后需要补上同样的规则，否则品牌与菜单会换行。 */
+.idphoto-body nav .idphoto-shell {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+@media (max-width: 1180px) {
+  .idphoto-body nav .idphoto-shell {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+@media (max-width: 920px) {
+  .idphoto-body nav .idphoto-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* 工作区高度 = 视口 - 站点导航条 - 工具顶栏。
+   minmax(0, 1fr) 让网格行严格贴合这个高度：否则横屏/小屏笔记本上
+   舞台卡片会按内容最小高度撑开，底部（印刷尺寸那一栏）被裁掉。 */
+.idphoto-body .workspace {
+  height: calc(100vh - 56px - 76px);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.idphoto-body footer.footer {
+  display: none;
+}
+
+/* 窄屏时 studio.css 会把工具改成单列堆叠并允许页面滚动 */
+@media (max-width: 920px) {
+  .idphoto-body {
+    overflow: auto;
+  }
+
+  .idphoto-body .workspace {
+    height: auto;
+  }
+}
+
+/* 站点导航条自带阴影，工具顶栏的边框在它下面会显得重复，这里弱化一点 */
+.idphoto-body .topbar {
+  border-bottom-color: rgba(27, 26, 24, 0.08);
+}
+
+/* Bootstrap 也有 .toast 组件，会额外加上白边和宽度上限，这里还原工具的深色提示条 */
+.idphoto-body .toast {
+  max-width: none;
+  border: 0;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
