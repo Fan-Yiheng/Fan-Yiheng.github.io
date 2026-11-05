@@ -23,7 +23,7 @@ github: Fan-Yiheng
 short_bio_text_justify: false
 short_bio: >-
   <p>
-    My name is Yiheng Fan. I am an Embedded Algorithm Engineer at Insta360 (影石创新) in Shenzhen, China, where I have been
+    My name is Yiheng Fan. I am an Embedded Algorithm Engineer at Insta360 in Shenzhen, China, where I have been
     working since July 2026.
     I received my Master's degree in Next-Generation Electronic Information Technology from the School of Electronics and
     Communication Engineering at Sun Yat-sen University in 2026.
@@ -61,7 +61,7 @@ experience:
   logo: /assets/images/badges/vivo.png
   dept: Smart Watch · Bluetooth (Internship)
   position: Assistant Driver Engineer
-  date: Sep. 2025
+  date: Jun. 2025 - Sep. 2025
 
 awards:
 - name: National Second Prize of China Graduate Electronics Design Contest
